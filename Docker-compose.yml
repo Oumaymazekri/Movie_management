@@ -1,0 +1,80 @@
+
+
+services:
+  # Service PostgreSQL
+  postgres:
+    image: postgres:14-alpine
+    container_name: movie-postgres
+    environment:
+      POSTGRES_DB: moviedb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: oumaymazekri09092001@
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - movie-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Service Redis
+  redis:
+    image: redis:alpine
+    container_name: movie-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - movie-network
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Service Backend Spring Boot
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: movie-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/moviedb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: oumaymazekri09092001@
+
+    ports:
+      - "8080:8080"
+    networks:
+      - movie-network
+
+  # Service Frontend Nginx (optionnel si séparé)
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile_front
+    container_name: movie-frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - movie-network
+
+networks:
+  movie-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:

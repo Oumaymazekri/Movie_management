@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Films</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-film"></i> Gestion de Films</h1>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active" id="nav-home">Accueil</a></li>
+                    <li><a href="#" id="nav-add">Ajouter un film</a></li>
+                    <li><a href="#" id="nav-search">Rechercher</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Section d'accueil avec la liste des films -->
+        <section id="home-section" class="section active">
+            <h2>Liste des Films</h2>
+            <div class="movie-grid" id="movie-list">
+                <!-- Les films seront ajoutés ici dynamiquement -->
+                <div class="loading">Chargement des films...</div>
+            </div>
+        </section>
+
+        <!-- Section pour ajouter un film -->
+        <section id="add-section" class="section">
+            <h2>Ajouter un Nouveau Film</h2>
+            <form id="add-movie-form">
+                <div class="form-group">
+                    <label for="title">Titre</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="director">Réalisateur</label>
+                    <input type="text" id="director" name="director" required>
+                </div>
+                <div class="form-group">
+                    <label for="releaseDate">Date de sortie</label>
+                    <input type="date" id="releaseDate" name="releaseDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="durationMinutes">Durée (minutes)</label>
+                    <input type="number" id="durationMinutes" name="durationMinutes" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="genre">Genre</label>
+                    <input type="text" id="genre" name="genre">
+                </div>
+                <div class="form-group">
+                    <label for="rating">Note (0-10)</label>
+                    <input type="number" id="rating" name="rating" min="0" max="10" step="0.1">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                    <button type="reset" class="btn btn-secondary">Réinitialiser</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Section de recherche -->
+        <section id="search-section" class="section">
+            <h2>Rechercher des Films</h2>
+            <form id="search-form">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Titre, réalisateur ou genre...">
+                    <select id="search-type">
+                        <option value="title">Titre</option>
+                        <option value="director">Réalisateur</option>
+                        <option value="genre">Genre</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </div>
+            </form>
+            <div class="search-results" id="search-results">
+                <!-- Les résultats de recherche seront ajoutés ici dynamiquement -->
+            </div>
+        </section>
+
+        <!-- Modal pour les détails du film -->
+        <div id="movie-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="movie-details">
+                    <!-- Les détails du film seront ajoutés ici dynamiquement -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Gestion de Films. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
